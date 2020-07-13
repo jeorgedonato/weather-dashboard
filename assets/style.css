@@ -1,0 +1,42 @@
+.navbar-brand{
+  font-size: 1.50rem!important;
+}
+
+/* section{
+  margin: 1rem;
+} */
+
+.row{
+  margin: 1rem;
+}
+
+.search-bar{
+  background: #f0ebe8;
+  border-radius: 5px;
+}
+
+.search-btn{
+  color: white;
+}
+
+.collapse-btn{
+  width: 100%;
+}
+
+.weather-bar{
+  border: 1px solid #f0ebe8;
+  border-radius: 4px;
+  padding: .5rem;
+}
+
+
+@media screen and (max-width: 576px) {
+  /* The body's bg color will be #333 */
+  .weather-bar {
+    margin-top: 10px;
+  }
+  /* .navbar-name {
+    justify-content: center;
+    background-color: rgb(89, 170, 165);
+  } */
+}
