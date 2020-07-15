@@ -1,4 +1,4 @@
-<h2 align="center">Day Planner</h2>
+<h2 align="center">Weather Dashboard</h2>
 
 **Working Link:** https://jeorgedonato.github.io/day-planner
 
