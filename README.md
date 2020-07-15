@@ -1,6 +1,6 @@
 <h2 align="center">Weather Dashboard</h2>
 
-**Working Link:** https://jeorgedonato.github.io/day-planner
+**Working Link:** https://jeorgedonato.github.io/weather-dashboard/
 
 <p align="center">A interactive weather web app that utilizes jQuery and Ajax</p>
 
