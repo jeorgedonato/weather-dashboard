@@ -181,7 +181,7 @@ exclude=minutely,hourly&appid=${apiKey}`;
     let storedWeather = JSON.parse(localStorage.getItem("weatherDashboard"));
     // console.log(searchGroup)
     searchGroup.empty();
-    if (storedWeather !== null) {
+    if (storedWeather !== null && storedWeather[0].cities) {
       storedWeather[0].cities.reverse();
       //Note on using slice: slice should be used on the array while in use
       for (let weather of storedWeather[0].cities.slice(0, 10)) {
