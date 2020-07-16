@@ -76,7 +76,7 @@ $.when($.ready).then(() => {
     let oneCallQuery = `https://api.openweathermap.org/data/2.5/onecall?lat=${weatherResult.coord.lat}&lon=${weatherResult.coord.lon}&
 exclude=minutely,hourly&appid=${apiKey}`;
 
-    console.log(`${weatherResult.coord.lat} - ${weatherResult.coord.lon}`)
+    // console.log(`${weatherResult.coord.lat} - ${weatherResult.coord.lon}`)
 
     const iconUrl = `http://openweathermap.org/img/w/${weatherResult.weather[0].icon}.png`;
     // console.log(weatherResult);
