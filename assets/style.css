@@ -87,3 +87,63 @@ body{
 .search-city-list{
   cursor: pointer;
 }
+
+
+.uvspan-low{
+  padding: 5px;
+  background-color: #20c997;
+  color: white;
+  border: 1px solid #20c997;
+  border-radius: 5px;
+}
+
+.uvspan-moderate{
+  padding: 5px;
+  background-color: #c9b820;
+  color: white;
+  border: 1px solid #c9b820;
+  border-radius: 5px;
+}
+
+.uvspan-high{
+  padding: 5px;
+  background-color: #c97a20;
+  color: white;
+  border: 1px solid #c97a20;
+  border-radius: 5px;
+}
+
+.uvspan-very{
+  padding: 5px;
+  background-color: #c93420;
+  color: white;
+  border: 1px solid #c93420;
+  border-radius: 5px;
+}
+
+.uvspan-extreme{
+  padding: 5px;
+  background-color: #a720c9;
+  color: white;
+  border: 1px solid #a720c9;
+  border-radius: 5px;
+}
+
+
+.weather-card{
+  margin-right: 3%;
+  /* background-color: #1a357c;
+  color: white; */
+  padding-left: 0;
+  padding-right: 0;
+}
+
+.weather-card-body{
+  padding: 5px;
+}
+
+@media screen and (max-width : 990px){
+  .weather-card-body{
+    padding: 20px;
+  }
+}

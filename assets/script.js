@@ -73,20 +73,70 @@ $.when($.ready).then(() => {
   };
 
   let parseWeatherBar = (weatherResult) => {
+    let oneCallQuery = `https://api.openweathermap.org/data/2.5/onecall?lat=${weatherResult.coord.lat}&lon=${weatherResult.coord.lon}&
+exclude=minutely,hourly&appid=${apiKey}`;
+
+    console.log(`${weatherResult.coord.lat} - ${weatherResult.coord.lon}`)
+
     const iconUrl = `http://openweathermap.org/img/w/${weatherResult.weather[0].icon}.png`;
     // console.log(weatherResult);
     const weatherDiv = $(`<div></div>`).addClass("weather-bar bg-light")
       .append(
-        $(`<p></p>`).append($(`<h5></h5>`).html(`${weatherResult.name}, ${weatherResult.sys.country} (${moment.unix(weatherResult.dt).format("MM/DD/YYYY")}) <img src="${iconUrl}" alt="${weatherResult.name} weather"/>`)),
+        $(`<p></p>`).append($(`<h4></h4>`).html(`${weatherResult.name}, ${weatherResult.sys.country} (${moment.unix(weatherResult.dt).format("MM/DD/YYYY")}) <img src="${iconUrl}" alt="${weatherResult.name} weather"/>`)),
         $(`<p></p>`).html(`Temperature: <strong>${((weatherResult.main.temp - 273.15) * 1.80 + 32).toFixed(1)} °F</strong>`),
         $(`<p></p>`).html(`Humidity: <strong>${weatherResult.main.humidity}%</strong>`),
         $(`<p></p>`).html(`Wind Speed: <strong>${weatherResult.wind.speed} MPH</strong>`)
       );
+
+    $.ajax({
+      url: oneCallQuery,
+      method: "GET"
+    }).done((response) => {
+      weatherDiv.append(
+        $(`<p></p>`).html(`UV Index: <span class="${uvColor(parseInt(response.current.uvi))}">${response.current.uvi}</span>`),
+        $(`<p></p>`).html(`<h5>5-Day Forecast</h5>`)
+      );
+      let daily = response.daily;
+      let rowDiv = $(`<div></div>`).addClass("row");
+      daily.slice(1, 6).map((d) => {
+        const iconUrl = `http://openweathermap.org/img/w/${d.weather[0].icon}.png`;
+        // console.log(d)
+        rowDiv.append(
+          $(`<div></div>`)
+            .addClass("card weather-card text-white bg-primary col-xl-2 col-lg-3 col-md-12 col-sm-12 col-xs-12 mt-2")
+            .append(
+              $(`<div></div>`).addClass("card-header").html(`<strong>${moment.unix(d.dt).format("MM/DD/YYYY")}</strong>`),
+              $(`<div></div>`).addClass("card-body weather-card-body").append(
+                $(`<img />`).attr({ src: iconUrl, alt: d.weather[0].description }),
+                $(`<p></p>`).addClass("card-text").html(`Temperature: <strong>${((d.temp.max - 273.15) * 1.80 + 32).toFixed(1)} °F</strong>`),
+                $(`<p></p>`).html(`Humidity: <strong>${d.humidity}%</strong>`)
+              )
+            )
+        )
+      });
+      weatherDiv.append(rowDiv)
+    })
+
+
     weatherArea.html(weatherDiv);
 
     // weatherDiv.ready(() => {
     loader.css("display", "none");
     // });
+  };
+
+  let uvColor = (uvIndex) => {
+    if (uvIndex < 2) {
+      return "uvspan-low";
+    } else if (uvIndex >= 3 && uvIndex <= 5) {
+      return "uvspan-moderate";
+    } else if (uvIndex >= 6 && uvIndex <= 7) {
+      return "uvspan-high";
+    } else if (uvIndex >= 8 && uvIndex <= 10) {
+      return "uvspan-very";
+    } else {
+      return "uvspan-extreme";
+    }
   };
 
   //Show Alert
