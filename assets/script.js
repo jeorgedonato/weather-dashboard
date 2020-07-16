@@ -2,11 +2,13 @@ $.when($.ready).then(() => {
   const apiKey = `6bdb742a424575111aa23affb7af492e`;
   const timeNow = moment().unix();
   const hourNow = moment.unix(timeNow).format("HH");
+  const loader = $(".loader");
   // const dateNow = moment().format("YYMMDDHHmmss");
   const alertArea = $(".alert-area");
   let searchInput = $(".search-input");
   const weatherArea = $(".weather-area");
   let searchGroup = $(".search-group");
+  let initWeather = true;
   // console.log(hourNow)
   let bgChecker = () => {
     let imageUrl;
@@ -51,16 +53,23 @@ $.when($.ready).then(() => {
 
   let querySearch = (dataId, upperValue) => {
     let queryUrl = `https://api.openweathermap.org/data/2.5/weather?q=${upperValue}&appid=${apiKey}`;
+    loader.css("display", "block");
+    weatherArea.empty();
     $.ajax({
       url: queryUrl,
       method: "GET"
     }).done((data, textStatus, jqXHR) => {
-      storeCities(dataId, upperValue);
+      storeCities(dataId, upperValue, data.sys.country);
       // console.log(data);
       parseWeatherBar(data)
     }).fail((jqXHR, textStatus, errorThrown) => {
       stateAlert("Please enter a valid city", "danger");
+      loader.css("display", "none");
     })
+  };
+
+  let initWeatherBar = () => {
+
   };
 
   let parseWeatherBar = (weatherResult) => {
@@ -73,7 +82,11 @@ $.when($.ready).then(() => {
         $(`<p></p>`).html(`Humidity: <strong>${weatherResult.main.humidity}%</strong>`),
         $(`<p></p>`).html(`Wind Speed: <strong>${weatherResult.wind.speed} MPH</strong>`)
       );
-    weatherArea.html(weatherDiv)
+    weatherArea.html(weatherDiv);
+
+    // weatherDiv.ready(() => {
+    loader.css("display", "none");
+    // });
   };
 
   //Show Alert
@@ -83,27 +96,30 @@ $.when($.ready).then(() => {
   };
   //Show Alert
 
-  let storeCities = (dataId, city) => {
+  let storeCities = (dataId, city, country) => {
     let storedWeather = JSON.parse(localStorage.getItem("weatherDashboard"));
     // parseInt(dataId)
     const weatherObjInit = {
       dataId: dataId,
       city: city,
-      isPrev: false
+      country: country
     };
     if (storedWeather === null) {
       //Init the scores as array then push
-      storedWeather = [];
-      storedWeather.push(weatherObjInit);
+      storedWeather = [{ cities: [] }, { lastSearch: "" }];
+      storedWeather[0].cities.push(weatherObjInit);
+      storedWeather[1].lastSearch = city;
       // stateAlert("Success your plan was stored!", "success");
     } else {
-      let weatherObj = storedWeather.find(element => element.city === city);
+      let weatherObj = storedWeather[0].cities.find(element => element.city === city);
       if (weatherObj) {
         // console.log(weatherObj)
         weatherObj.dataId = dataId;
+        storedWeather[1].lastSearch = city;
         // stateAlert("Success your plan was edited!", "success");
       } else {
-        storedWeather.push(weatherObjInit);
+        storedWeather[0].cities.push(weatherObjInit);
+        storedWeather[1].lastSearch = city;
         // stateAlert("Success your plan was stored!", "success");
       }
     }
@@ -116,12 +132,18 @@ $.when($.ready).then(() => {
     // console.log(searchGroup)
     searchGroup.empty();
     if (storedWeather !== null) {
-      storedWeather.reverse();
+      storedWeather[0].cities.reverse();
       //Note on using slice: slice should be used on the array while in use
-      for (let weather of storedWeather.slice(0, 10)) {
+      for (let weather of storedWeather[0].cities.slice(0, 10)) {
         // console.log(weather)
         let dataId = weather.dataId;
-        searchGroup.append($(`<li></li>`).text(weather.city).attr({ "data-id": dataId, "data-city": weather.city }).addClass("list-group-item search-city-list"));
+        searchGroup.append($(`<li></li>`).text(`${weather.city}, ${weather.country}`).attr({ "data-id": dataId, "data-city": weather.city }).addClass("list-group-item search-city-list"));
+      }
+
+      // For the initialize Weather bar
+      if (storedWeather[1].lastSearch && initWeather) {
+        querySearch(timeNow, storedWeather[1].lastSearch);
+        initWeather = false
       }
     }
     bgChecker();
@@ -139,4 +161,7 @@ $.when($.ready).then(() => {
 
   renderCities();
   // bgChecker();
+
+
 });
+

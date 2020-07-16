@@ -36,15 +36,44 @@ body{
 }
 
 
+/* @media screen and (max-width: 948px){
+  .loading-screen{
+    width: 95vh ;
+  }
+} */
+
 @media screen and (max-width: 576px) {
   /* The body's bg color will be #333 */
   .weather-bar {
     margin-top: 10px;
   }
+
+  /* .loading-screen{
+    width: 93vh ;
+  } */
   /* .navbar-name {
     justify-content: center;
     background-color: rgb(89, 170, 165);
   } */
+}
+
+.loader {
+  border: 16px solid #f3f3f3; /* Light grey */
+  border-top: 16px solid #34dbc5; /* Green */
+  border-radius: 50%;
+  width: 120px;
+  height: 120px;
+  animation: spin 2s linear infinite;
+  display: none;
+  margin-left: 60vw;
+  margin-top: 15vh;
+  position: absolute;
+  z-index: 10;
+}
+
+@keyframes spin {
+  0% { transform: rotate(0deg); }
+  100% { transform: rotate(360deg); }
 }
 
 .alert-banner{
@@ -53,4 +82,8 @@ body{
     margin-top: 25vh;
     width: 100%;
     text-align: center;
+}
+
+.search-city-list{
+  cursor: pointer;
 }
