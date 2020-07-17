@@ -22,11 +22,11 @@ To make a interactive weather dashboard website using jQuery and Ajax.
 
 **Screenshots**
 
-<!-- ![Home Screenshot](/assets/home-screenshot.jpg) -->
+![Home Screenshot](/assets/images/home-screenshot.jpg)
 
 <!-- ![Validation Screenshot](/assets/function-screenshot.jpg) -->
 
-<!-- ![Function Screenshot](/assets/function-screenshot.jpg) -->
+![Function Screenshot](/assets/images/function-screenshot.jpg)
 
 ---
 

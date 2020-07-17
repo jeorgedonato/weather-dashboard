@@ -195,6 +195,21 @@ exclude=minutely,hourly&appid=${apiKey}`;
         querySearch(timeNow, storedWeather[1].lastSearch);
         initWeather = false
       }
+    } else {
+      weatherArea.append(
+        $(`<div></div>`).addClass("card")
+          .append(
+            $(`<div></div>`).addClass("card-body").html(`
+              <h5 class="card-title">Welcome to Weather Dashboard!</h5>
+              <h6 class="card-subtitle mt-2 mb-2">A web app that provides weather information.</h6>
+              <ul>
+                <li>Current weather data </li>
+                <li>Current UV Index</li>
+                <li>5-Day weather forecast</li>
+              </ul>
+            `)
+          )
+      )
     }
     bgChecker();
   };
