@@ -68,10 +68,6 @@ $.when($.ready).then(() => {
     })
   };
 
-  let initWeatherBar = () => {
-
-  };
-
   let parseWeatherBar = (weatherResult) => {
     let oneCallQuery = `https://api.openweathermap.org/data/2.5/onecall?lat=${weatherResult.coord.lat}&lon=${weatherResult.coord.lon}&
 exclude=minutely,hourly&appid=${apiKey}`;
